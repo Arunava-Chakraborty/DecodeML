@@ -3,6 +3,7 @@ import blogs from '../data/blogs';
 import BlogCard from '../components/BlogCard';
 import '../styles/Blog.css'; // Make sure to create/update styles accordingly
 
+
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('date');
@@ -25,7 +26,7 @@ const Blog = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search blogs..."
+          placeholder="Search blogs...One Blog at a Time."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -41,7 +42,7 @@ const Blog = () => {
         </select>
       </div>
 
-      <h2 className="blog-title">Latest Blog Posts</h2>
+      <h2 className="blog-title">Unfiltered thoughts from a caffeinated ML dev.</h2>
       {filteredBlogs.length ? (
         filteredBlogs.map((blog, i) => <BlogCard key={i} {...blog} />)
       ) : (

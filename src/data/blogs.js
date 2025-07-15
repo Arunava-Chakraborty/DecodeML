@@ -4,7 +4,9 @@ const blogs = [
       date: "Mon Jul 07 2025",
       excerpt: "Explore 5 powerful yet lesser-known tricks in Python that can save you time.",
       tags: ["Python", "Tips"],
-      thumbnail: "/default-thumb.png"
+      thumbnail: "/default-thumb.png",
+      link : "https://medium.com/@oarunavachakraborty/blog-3-deploying-surgical-face-recognition-with-streamlit-mysql-a5bc6ccbdde2"
+      
     },
     {
       title: "Understanding Overfitting and Underfitting",

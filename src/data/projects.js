@@ -15,6 +15,30 @@ const projects = [
       techStack: ["React", "Vite", "Markdown"],
       source: "https://github.com/yourusername/blog-builder",
     },
+    {
+      id: "blog-builder",
+      title: "Static Blog Builder",
+      problem: "Create and manage blogs via JSON and React routing.",
+      intuition: "Uses structured routing and file-based blog content.",
+      techStack: ["React", "Vite", "Markdown"],
+      source: "https://github.com/yourusername/blog-builder",
+    },
+    {
+      id: "blog-builder",
+      title: "Static Blog Builder",
+      problem: "Create and manage blogs via JSON and React routing.",
+      intuition: "Uses structured routing and file-based blog content.",
+      techStack: ["React", "Vite", "Markdown"],
+      source: "https://github.com/yourusername/blog-builder",
+    },
+    {
+      id: "blog-builder",
+      title: "Static Blog Builder",
+      problem: "Create and manage blogs via JSON and React routing.",
+      intuition: "Uses structured routing and file-based blog content.",
+      techStack: ["React", "Vite", "Markdown"],
+      source: "https://github.com/yourusername/blog-builder",
+    },
   ];
   export default projects;
   

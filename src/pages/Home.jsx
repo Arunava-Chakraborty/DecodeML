@@ -57,7 +57,7 @@ const Home = () => {
                 <button onClick={() => navigate("/docs")}>📘 Explore Docs</button>
                 <button onClick={() => navigate("/blog")}>🧠 Read Blog</button>
                 <button onClick={() => navigate("/playground")}>🧪 Playground</button>
-                <button onClick={() => navigate("/viz")}>📊 Visualizer</button>
+                <button onClick={() => navigate("/projects")}>📊 Projects</button>
               </div>
             </div>
 

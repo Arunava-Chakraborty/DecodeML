@@ -6,7 +6,7 @@ const Playground = () => {
 import pandas as pd
 df = pd.read_csv("uploaded.csv")
 print(df.head())`);
-  const [output, setOutput] = useState("⏳ Loading Pyodide...");
+  const [output, setOutput] = useState("⏳ Bribing the browser to pretend it’s a Python interpreter.....");
   const [pyodide, setPyodide] = useState(null);
   const [plotSrc, setPlotSrc] = useState(null);
   const [uploadedCSV, setUploadedCSV] = useState(null);
@@ -15,7 +15,7 @@ print(df.head())`);
     const loadPy = async () => {
       const pyodideInstance = await window.loadPyodide();
       setPyodide(pyodideInstance);
-      setOutput("✅ Pyodide loaded. Ready to run Python code.");
+      setOutput("✅Python loaded. Let's break some data!");
     };
     loadPy();
   }, []);
@@ -25,13 +25,13 @@ print(df.head())`);
     if (!file) return;
     const text = await file.text();
     setUploadedCSV(text);
-    setOutput("📁 CSV uploaded. You can access it using 'uploaded.csv'");
+    setOutput("📂 Uploading CSV... Let’s see what secrets your data holds!");
   };
 
   const handleRun = async () => {
     if (!pyodide) return setOutput("⏳ Pyodide is still loading...");
     try {
-      setOutput("📦 Running code...");
+      setOutput("Compiling caffeine-powered Python…");
       setPlotSrc(null);
 
       await pyodide.loadPackage(["pandas", "numpy", "matplotlib"]);
@@ -68,7 +68,7 @@ await pyodide.runPythonAsync(`
       }
 
       const result = await pyodide.runPythonAsync("sys.stdout.getvalue()");
-      setOutput(result || "✅ Code executed successfully.");
+      setOutput(result || "✅ Your code ran. Somewhere, a bug just cried.");
     } catch (err) {
       setOutput(`❌ Error:\n${err}`);
     }
@@ -87,11 +87,12 @@ await pyodide.runPythonAsync(`
 
   return (
     <div className="playground-container">
-      <h2 className="playground-title">🧪 DecodeML Playground</h2>
-      <p className="playground-subtitle">Experiment. Visualize. Learn.</p>
+      <h2 className="playground-title">Break Things Here — We Made It Crash-Proof (Hopefully)</h2>
+      <p className="playground-subtitle">Experiment with Python. Crash responsibly.</p>
 
       <div className="upload-section">
         <label>📂 Upload CSV:</label>
+        <label>You can access the csv using "uploaded.csv"</label>
         <input type="file" accept=".csv" onChange={handleCSVUpload} />
       </div>
 

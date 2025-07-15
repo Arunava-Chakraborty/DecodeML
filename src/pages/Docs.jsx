@@ -65,3 +65,5 @@ const Docs = () => {
 };
 
 export default Docs;
+
+docs.jsx
