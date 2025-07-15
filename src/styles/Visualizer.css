@@ -1,0 +1,44 @@
+.visualizer-page {
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dropdown select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #1f1f1f;
+  color: #fff;
+}
+
+.cell-container {
+  margin-top: 2rem;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #333;
+}
+
+.plot-box {
+  margin-top: 1rem;
+  background: rgba(50, 50, 50, 0.85);
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.plot-placeholder {
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  height: 200px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
