@@ -8,16 +8,65 @@ const DocDetail = () => {
   const [currentDoc, setCurrentDoc] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Map of all available documentation slugs
+  const availableDocs = {
+    'python': 'Python',
+    'data-structures': 'Data Structures', 
+    'algorithms': 'Algorithms',
+    'database': 'Database',
+    'machine-learning': 'Machine Learning',
+    'supervised-learning': 'Supervised Learning',
+    'unsupervised-learning': 'Unsupervised Learning',
+    'deep-learning': 'Deep Learning',
+    'pandas': 'Pandas',
+    'data-visualization': 'Data Visualization',
+    'scikit-learn': 'Scikit-Learn',
+    'tensorflow': 'TensorFlow',
+    'pytorch': 'PyTorch',
+    'data-pipelines': 'Data Pipelines',
+    'git-github': 'Git & GitHub',
+    'ml-ops': 'ML Ops',
+    'data-ops': 'Data Ops',
+    'other-topics': 'Other Topics'
+  };
+
   useEffect(() => {
     const loadDocumentation = async () => {
       try {
         setLoading(true);
         
-        // Dynamically import the documentation file
-        const docModule = await import(`../data/docs/${slug}.jsx`);
-        setCurrentDoc(docModule.default);
+        // Check if the slug exists in our available docs
+        if (!availableDocs[slug]) {
+          setCurrentDoc(null);
+          return;
+        }
+
+        // Try to dynamically import the documentation file
+        try {
+          const docModule = await import(`../data/docs/${slug}.jsx`);
+          setCurrentDoc(docModule.default);
+        } catch (importError) {
+          // If file doesn't exist, create a fallback document
+          console.warn(`Documentation file for ${slug} not found, using fallback`);
+          setCurrentDoc({
+            title: availableDocs[slug],
+            subtopics: [
+              {
+                id: 'coming-soon',
+                title: 'Documentation Coming Soon',
+                content: `
+                  <div class="info-box">
+                    <p>We're working on creating comprehensive documentation for <strong>${availableDocs[slug]}</strong>.</p>
+                    <p>This content will be available soon. Check back later or <a href="/contact">contact us</a> if you need immediate assistance.</p>
+                  </div>
+                  <p>In the meantime, you can explore our other documentation sections.</p>
+                `
+              }
+            ]
+          });
+        }
       } catch (error) {
-        console.error(`Failed to load documentation for ${slug}:`, error);
+        console.error('Error loading documentation:', error);
         setCurrentDoc(null);
       } finally {
         setLoading(false);
@@ -42,7 +91,7 @@ const DocDetail = () => {
     return (
       <div className="doc-not-found">
         <h1>Documentation Not Found</h1>
-        <p>The documentation for "{slug}" is not available yet.</p>
+        <p>The documentation for "{slug}" doesn't exist.</p>
         <a href="/docs">← Back to Documentation</a>
       </div>
     );
