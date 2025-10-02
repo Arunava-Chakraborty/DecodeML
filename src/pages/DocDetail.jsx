@@ -2,57 +2,41 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './DocDetail.css';
 
-// Import all your documentation files
-import pythonDoc from '../data/docs/python.jsx';
-import dataStructuresDoc from '../data/docs/data-structures.jsx';
-import algorithmsDoc from '../data/docs/algorithms.jsx';
-import dataDoc from '../data/docs/data.jsx';
-import mlDoc from '../data/docs/ml.jsx';
-import supervisedDoc from '../data/docs/supervised.jsx';
-import unsupervisedDoc from '../data/docs/unsupervised.jsx';
-import deepLearningDoc from '../data/docs/deep-learning.jsx';
-import pandasDoc from '../data/docs/pandas.jsx';
-import dataVizDoc from '../data/docs/data-viz.jsx';
-import scikitLearnDoc from '../data/docs/scikit-learn.jsx';
-import tensorflowDoc from '../data/docs/tensorflow.jsx';
-import pytorchDoc from '../data/docs/pytorch.jsx';
-import dataPipelineDoc from '../data/docs/data-pipeline.jsx';
-import gitGithubDoc from '../data/docs/git-github.jsx';
-import mlOpsDoc from '../data/docs/ml-ops.jsx';
-import dataOpsDoc from '../data/docs/data-ops.jsx';
-import otherTopicsDoc from '../data/docs/other-topics.jsx';
-
-const docMap = {
-  'python': pythonDoc,
-  'data-structures': dataStructuresDoc,
-  'algorithms': algorithmsDoc,
-  'data': dataDoc,
-  'ml': mlDoc,
-  'supervised': supervisedDoc,
-  'unsupervised': unsupervisedDoc,
-  'deep-learning': deepLearningDoc,
-  'pandas': pandasDoc,
-  'data-viz': dataVizDoc,
-  'scikit-learn': scikitLearnDoc,
-  'tensorflow': tensorflowDoc,
-  'pytorch': pytorchDoc,
-  'data-pipeline': dataPipelineDoc,
-  'others': gitGithubDoc, // Using git-github for 'others' slug
-  'handling-data': mlOpsDoc, // Using ml-ops for 'handling-data' slug
-  // Note: You have duplicate slugs that need to be resolved
-};
-
 const DocDetail = () => {
   const { slug } = useParams();
   const [activeSubtopic, setActiveSubtopic] = useState(0);
   const [currentDoc, setCurrentDoc] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set the current document based on slug
-    const doc = docMap[slug];
-    setCurrentDoc(doc);
-    setActiveSubtopic(0); // Reset to first subtopic when doc changes
+    const loadDocumentation = async () => {
+      try {
+        setLoading(true);
+        
+        // Dynamically import the documentation file
+        const docModule = await import(`../data/docs/${slug}.jsx`);
+        setCurrentDoc(docModule.default);
+      } catch (error) {
+        console.error(`Failed to load documentation for ${slug}:`, error);
+        setCurrentDoc(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (slug) {
+      loadDocumentation();
+    }
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="doc-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading documentation...</p>
+      </div>
+    );
+  }
 
   if (!currentDoc) {
     return (
