@@ -1,33 +1,100 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './DocDetail.css';
 
 const DocDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [activeSubtopic, setActiveSubtopic] = useState(0);
   const [currentDoc, setCurrentDoc] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Map of all available documentation slugs
-  const availableDocs = {
-    'python': 'Python',
-    'data-structures': 'Data Structures', 
-    'algorithms': 'Algorithms',
-    'database': 'Database',
-    'machine-learning': 'Machine Learning',
-    'supervised-learning': 'Supervised Learning',
-    'unsupervised-learning': 'Unsupervised Learning',
-    'deep-learning': 'Deep Learning',
-    'pandas': 'Pandas',
-    'data-visualization': 'Data Visualization',
-    'scikit-learn': 'Scikit-Learn',
-    'tensorflow': 'TensorFlow',
-    'pytorch': 'PyTorch',
-    'data-pipelines': 'Data Pipelines',
-    'git-github': 'Git & GitHub',
-    'ml-ops': 'ML Ops',
-    'data-ops': 'Data Ops',
-    'other-topics': 'Other Topics'
+  // Sample documentation data (fallback if files don't exist)
+  const sampleDocs = {
+    'python': {
+      title: "Python",
+      subtopics: [
+        {
+          id: "intro",
+          title: "Introduction to Python",
+          content: `
+            <h2>Getting Started with Python</h2>
+            <p>Python is a versatile, high-level programming language known for its simplicity and readability.</p>
+            
+            <div class="info-box">
+              <p><strong>Key Features:</strong> Easy to learn, extensive libraries, cross-platform compatibility</p>
+            </div>
+
+            <h3>Why Python for Machine Learning?</h3>
+            <ul>
+              <li>Rich ecosystem of ML libraries (Scikit-learn, TensorFlow, PyTorch)</li>
+              <li>Clean syntax that's easy to read and maintain</li>
+              <li>Strong community support and extensive documentation</li>
+              <li>Excellent for prototyping and production</li>
+            </ul>
+
+            <div class="code-block">
+# Simple Python example
+def calculate_stats(data):
+    mean = sum(data) / len(data)
+    variance = sum((x - mean) ** 2 for x in data) / len(data)
+    return mean, variance
+
+data = [1, 2, 3, 4, 5]
+mean, var = calculate_stats(data)
+print(f"Mean: {mean}, Variance: {var}")
+            </div>
+          `
+        },
+        {
+          id: "basics",
+          title: "Python Basics",
+          content: `
+            <h2>Fundamental Python Concepts</h2>
+            <p>Learn the building blocks of Python programming.</p>
+            
+            <h3>Variables and Data Types</h3>
+            <div class="code-block">
+# Basic data types
+name = "Alice"           # String
+age = 25                 # Integer
+height = 5.9             # Float
+is_student = True        # Boolean
+scores = [85, 92, 78]    # List
+            </div>
+          `
+        }
+      ]
+    },
+    'data-structures': {
+      title: "Data Structures",
+      subtopics: [
+        {
+          id: "intro",
+          title: "Introduction to Data Structures",
+          content: `
+            <h2>Data Structures Overview</h2>
+            <p>Data structures are fundamental building blocks for efficient programming.</p>
+            <p>Content coming soon...</p>
+          `
+        }
+      ]
+    },
+    'algorithms': {
+      title: "Algorithms",
+      subtopics: [
+        {
+          id: "intro",
+          title: "Introduction to Algorithms",
+          content: `
+            <h2>Algorithms Overview</h2>
+            <p>Algorithms are step-by-step procedures for solving problems.</p>
+            <p>Content coming soon...</p>
+          `
+        }
+      ]
+    }
+    // Add more documentation here as needed
   };
 
   useEffect(() => {
@@ -35,35 +102,32 @@ const DocDetail = () => {
       try {
         setLoading(true);
         
-        // Check if the slug exists in our available docs
-        if (!availableDocs[slug]) {
-          setCurrentDoc(null);
-          return;
-        }
-
-        // Try to dynamically import the documentation file
+        // First try to dynamically import
         try {
           const docModule = await import(`../data/docs/${slug}.jsx`);
           setCurrentDoc(docModule.default);
         } catch (importError) {
-          // If file doesn't exist, create a fallback document
-          console.warn(`Documentation file for ${slug} not found, using fallback`);
-          setCurrentDoc({
-            title: availableDocs[slug],
-            subtopics: [
-              {
-                id: 'coming-soon',
-                title: 'Documentation Coming Soon',
-                content: `
-                  <div class="info-box">
-                    <p>We're working on creating comprehensive documentation for <strong>${availableDocs[slug]}</strong>.</p>
-                    <p>This content will be available soon. Check back later or <a href="/contact">contact us</a> if you need immediate assistance.</p>
-                  </div>
-                  <p>In the meantime, you can explore our other documentation sections.</p>
-                `
-              }
-            ]
-          });
+          console.log(`File not found for ${slug}, using sample data`);
+          // Use sample data if file doesn't exist
+          if (sampleDocs[slug]) {
+            setCurrentDoc(sampleDocs[slug]);
+          } else {
+            setCurrentDoc({
+              title: slug.charAt(0).toUpperCase() + slug.slice(1),
+              subtopics: [
+                {
+                  id: 'coming-soon',
+                  title: 'Documentation Coming Soon',
+                  content: `
+                    <div class="info-box">
+                      <p>We're working on creating comprehensive documentation for <strong>${slug}</strong>.</p>
+                      <p>This content will be available soon. Check back later!</p>
+                    </div>
+                  `
+                }
+              ]
+            });
+          }
         }
       } catch (error) {
         console.error('Error loading documentation:', error);
@@ -92,7 +156,9 @@ const DocDetail = () => {
       <div className="doc-not-found">
         <h1>Documentation Not Found</h1>
         <p>The documentation for "{slug}" doesn't exist.</p>
-        <a href="/docs">← Back to Documentation</a>
+        <button onClick={() => navigate('/docs')} className="back-button">
+          ← Back to Documentation
+        </button>
       </div>
     );
   }
@@ -124,7 +190,9 @@ const DocDetail = () => {
       <main className="doc-main">
         <div className="content-header">
           <nav className="breadcrumb">
-            <a href="/docs">Docs</a>
+            <button onClick={() => navigate('/docs')} className="breadcrumb-link">
+              Docs
+            </button>
             <span> / </span>
             <span className="current">{currentDoc.title}</span>
           </nav>
