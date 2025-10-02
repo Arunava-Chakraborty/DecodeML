@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './Docs.css';
+import DocViewer from './DocViewer';
 import {
   FaPython, FaSearch, FaCog, FaReact, FaAlgolia, FaDocker,
   FaGithub, FaSnowflake, FaNetworkWired, FaProjectDiagram,
@@ -26,10 +27,10 @@ const docs = [
   { title: "TensorFlow", slug: "tensorflow", icon: <FaTengeSign size={40} />, tags: ["DL", "AI", "Keras"] },
   { title: "PyTorch", slug: "pytorch", icon: <FaFireFlameCurved size={40} />, tags: ["DL", "Training", "Optimization"] },
   { title: "Data Pipelines", slug: "data-pipeline", icon: <FaCog size={40} />, tags: ["ETL", "Automation", "Batch"] },
-  { title: "Git-Github", slug: "others", icon: <FaGithub size={40} />, tags: ["Misc", "Advanced", "Uncommon"] },
-  { title: "ML-Ops", slug: "handling-data", icon: <FaDocker size={40} />, tags: ["Cleaning", "Preprocessing", "Transformation"] },
-  { title: "Data-Ops", slug: "handling-data", icon: <FaSnowflake size={40} />, tags: ["Cleaning", "Preprocessing", "Transformation"] },
-  { title: "Other Topics", slug: "others", icon: <FaPython size={40} />, tags: ["Misc", "Advanced", "Uncommon"] },
+  { title: "Git-Github", slug: "git-github", icon: <FaGithub size={40} />, tags: ["Misc", "Advanced", "Uncommon"] },
+  { title: "ML-Ops", slug: "ml-ops", icon: <FaDocker size={40} />, tags: ["Cleaning", "Preprocessing", "Transformation"] },
+  { title: "Data-Ops", slug: "data-ops", icon: <FaSnowflake size={40} />, tags: ["Cleaning", "Preprocessing", "Transformation"] },
+  { title: "Other Topics", slug: "other-topics", icon: <FaPython size={40} />, tags: ["Misc", "Advanced", "Uncommon"] },
 ];
 
 const Docs = () => {
